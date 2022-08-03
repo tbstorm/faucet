@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -66,13 +67,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-	coins := strings.Split(defaultDenoms, denomSeparator)
+	coins := strings.Split(defaultDenoms, commaSeparator)
+	creditAmounts := strings.Split(creditAmount, commaSeparator)
+	maxCredits := strings.Split(maxCredit, commaSeparator)
 
 	faucetOptions := make([]cosmosfaucet.Option, len(coins))
 	for i, coin := range coins {
+		creditAmount, _ := strconv.ParseUint(creditAmounts[i], 10, 64)
+		maxCredit, _ := strconv.ParseUint(maxCredits[i], 10, 64)
 		faucetOptions[i] = cosmosfaucet.Coin(creditAmount, maxCredit, coin)
 	}
-
 	faucetOptions = append(faucetOptions, cosmosfaucet.Account(keyName, keyMnemonic, coinType))
 
 	faucet, err := cosmosfaucet.New(context.Background(), cr, faucetOptions...)
