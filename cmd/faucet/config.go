@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"strconv"
 
 	"github.com/tendermint/starport/starport/pkg/cosmosfaucet"
 
@@ -9,7 +10,7 @@ import (
 )
 
 const (
-	denomSeparator = ","
+	commaSeparator = ","
 )
 
 var (
@@ -21,8 +22,8 @@ var (
 	keyringPassword string
 	appCli          string
 	defaultDenoms   string
-	creditAmount    uint64
-	maxCredit       uint64
+	creditAmount    string
+	maxCredit       string
 	nodeAddress     string
 	legacySendCmd   bool
 	coinType        string
@@ -55,21 +56,21 @@ func init() {
 		"password for accessing keyring",
 	)
 	flag.StringVar(&appCli, "cli-name",
-		environ.GetString("CLI_NAME", "gaiad"),
+		environ.GetString("CLI_NAME", "nibid"),
 		"name of the cli executable",
 	)
 	flag.StringVar(&defaultDenoms, "denoms",
 		environ.GetString("DENOMS", cosmosfaucet.DefaultDenom),
 		"denomination of the coins sent by default (comma separated)",
 	)
-	flag.Uint64Var(&creditAmount,
+	flag.StringVar(&creditAmount,
 		"credit-amount",
-		environ.GetUint64("CREDIT_AMOUNT", cosmosfaucet.DefaultAmount),
-		"amount to credit in each request",
+		environ.GetString("CREDIT_AMOUNT", strconv.FormatUint(cosmosfaucet.DefaultAmount, 10)),
+		"amount to credit in each request per denom, e.g. 1000,1000000",
 	)
-	flag.Uint64Var(&maxCredit,
-		"max-credit", environ.GetUint64("MAX_CREDIT", cosmosfaucet.DefaultMaxAmount),
-		"maximum credit per account",
+	flag.StringVar(&maxCredit,
+		"max-credit", environ.GetString("MAX_CREDIT", strconv.FormatUint(cosmosfaucet.DefaultMaxAmount, 10)),
+		"maximum credit per denom, e.g. 10000,1000000000",
 	)
 	flag.StringVar(&nodeAddress, "node",
 		environ.GetString("NODE", ""),
