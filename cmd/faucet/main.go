@@ -73,9 +73,9 @@ func main() {
 
 	faucetOptions := make([]cosmosfaucet.Option, len(coins))
 	for i, coin := range coins {
-		creditAmount, _ := strconv.ParseUint(creditAmounts[i], 10, 64)
-		maxCredit, _ := strconv.ParseUint(maxCredits[i], 10, 64)
-		faucetOptions[i] = cosmosfaucet.Coin(creditAmount, maxCredit, coin)
+		c, _ := strconv.ParseUint(creditAmounts[i], 10, 64)
+		m, _ := strconv.ParseUint(maxCredits[i], 10, 64)
+		faucetOptions[i] = cosmosfaucet.Coin(c, m, coin)
 	}
 	faucetOptions = append(faucetOptions, cosmosfaucet.Account(keyName, keyMnemonic, coinType))
 
