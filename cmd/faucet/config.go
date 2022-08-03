@@ -66,11 +66,11 @@ func init() {
 	flag.StringVar(&creditAmount,
 		"credit-amount",
 		environ.GetString("CREDIT_AMOUNT", strconv.FormatUint(cosmosfaucet.DefaultAmount, 10)),
-		"amount to credit in each request per denom",
+		"amount to credit in each request per denom, e.g. 1000,1000000",
 	)
 	flag.StringVar(&maxCredit,
 		"max-credit", environ.GetString("MAX_CREDIT", strconv.FormatUint(cosmosfaucet.DefaultMaxAmount, 10)),
-		"maximum credit per denom",
+		"maximum credit per denom, e.g. 10000,1000000000",
 	)
 	flag.StringVar(&nodeAddress, "node",
 		environ.GetString("NODE", ""),
